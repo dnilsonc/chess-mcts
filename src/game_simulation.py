@@ -22,10 +22,10 @@ def play_game():
     # Jogo
     while not board.is_game_over():
         if board.turn == chess.WHITE:
-            move = mcts(board, 1500, board.turn, 2)
+            move = mcts(board, 15000, board.turn, 10)
             print(f"Player WHITE move: {board.san(move)}")
         else:
-            move = mcts(board, 6000, board.turn, 10)
+            move = mcts(board, 15000, board.turn, 10)
             print(f"Player BLACK move: {board.san(move)}")
 
         move_history.append(board.san(move))
@@ -54,4 +54,7 @@ def play_game():
     print("\nHistórico de movimentos:")
     print(game)
 
-play_game()
+
+
+if __name__ == "__main__":
+    play_game()
