@@ -1,7 +1,7 @@
 import random
 import chess
 import copy
-from typing import Optional, List, Tuple
+from typing import Optional, List
 
 class Node:
     def __init__(self, board: chess.Board, parent: Optional['Node'] = None, from_move: Optional[chess.Move] = None):
@@ -18,9 +18,14 @@ class Node:
 
     def update(self, reward: int):
         self.visits += 1
-        self.value += reward
+        if self.board.turn == chess.WHITE and reward == 1:
+            self.value += 1
+        elif self.board.turn == chess.BLACK and reward == -1:
+            self.value += 1
+        elif reward == 0.5:
+            self.value += reward
         if self.parent:
-            self.parent.update(-reward)
+            self.parent.update(reward)
 
     def expand(self) -> Optional['Node']:
         legal_moves = list(self.board.legal_moves)
