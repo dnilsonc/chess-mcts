@@ -1,17 +1,18 @@
 import chess
 import chess.pgn
-from mcts import mcts
+from classNode import Node
+from monte_carlo import monte_carlo_tree_search
 
 def play_game():
+
     board = chess.Board()
-    initial_fen =  "6k1/pp3p2/4p1p1/1PbpP2p/Pq3P2/6P1/2RN2Q1/K4B2 b - - 0 28"
+    initial_fen =  "Q4r2/R5pp/1p1k4/3p4/2b3P1/8/5q2/1N5K b - - 0 1"
 
     board.set_fen(initial_fen)
 
     print(board)
     move_history = []
 
-    # Salvar o histórico dos movimentos em formato PGN
     game = chess.pgn.Game()
     game.headers["Event"] = "Test"
     game.headers["White"] = "MCTS"
@@ -19,13 +20,13 @@ def play_game():
     game.headers["SetUp"] = "1"
     game.headers["FEN"] = initial_fen
 
-    # Jogo
+    root = Node(board)
     while not board.is_game_over():
         if board.turn == chess.WHITE:
-            move = mcts(board, 15000, board.turn, 10)
+            root, move = monte_carlo_tree_search(root, 3000, 10)
             print(f"Player WHITE move: {board.san(move)}")
         else:
-            move = mcts(board, 15000, board.turn, 10)
+            root, move = monte_carlo_tree_search(root, 3000, 10)
             print(f"Player BLACK move: {board.san(move)}")
 
         move_history.append(board.san(move))
@@ -39,8 +40,7 @@ def play_game():
             print('Draw!')
             game.headers["Result"] = board.result()
             break
-
-    # Salvar o histórico dos movimentos em formato PGN
+    
     node = game
     board = chess.Board()  # Resetar o tabuleiro para a posição inicial
     board.set_fen(initial_fen)  # Redefinir a posição inicial
@@ -53,8 +53,6 @@ def play_game():
     # Imprimir o histórico de movimentos
     print("\nHistórico de movimentos:")
     print(game)
-
-
 
 if __name__ == "__main__":
     play_game()
