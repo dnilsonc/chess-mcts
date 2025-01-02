@@ -6,7 +6,7 @@ from monte_carlo import monte_carlo_tree_search
 def play_game():
 
     board = chess.Board()
-    initial_fen =  "k5n1/2Q5/8/1p3B2/4P3/4K1P1/PP5r/2R4q w - - 3 36"
+    initial_fen =  "Q4r2/R5pp/1p1k4/3p4/2b3P1/8/5q2/1N5K b - - 0 1"
 
     board.set_fen(initial_fen)
 
