@@ -8,7 +8,8 @@ def uct(node: Node) -> float:
     # UCT formula: Q + C * sqrt(ln(N) / n)
     if node.visits == 0:
         return float('inf')
-    C = 1 # Exploração constante, ajustável
+    C = math.sqrt(2) # Exploração constante, ajustável
+
     return node.value / node.visits + C * math.sqrt(math.log(node.parent.visits) / node.visits)
 
 def selection(node: Node) -> Node:
@@ -49,13 +50,14 @@ def backpropagation(reward: int, node: Node) -> None:
     node.update(reward)
 
 def best_child(root: Node) -> Node:
-    best_child = random.choice(root.children)
-    best_avaliation = -float('inf')
-    for child in root.children:
-        avaliation = 1 - (child.value / child.visits)
-        if avaliation > best_avaliation:
-            best_avaliation = avaliation
-            best_child = child
+    # best_child = random.choice(root.children)
+    # best_avaliation = -float('inf')
+    # for child in root.children:
+    #     avaliation = 1 - (child.value / child.visits)
+    #     if avaliation > best_avaliation:
+    #         best_avaliation = avaliation
+    #         best_child = child
+    best_child = min(root.children, key=lambda x: x.rating)
     return best_child
 
 def mcts_worker(root, n_simulations):
