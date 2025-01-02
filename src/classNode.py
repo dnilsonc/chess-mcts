@@ -11,6 +11,7 @@ class Node:
         self.children: List['Node'] = []
         self.visits = 0
         self.value = 0
+        self.rating = 0
         self.used_moves = set()  # Rastreamento dos movimentos já usados
 
     def is_fully_expanded(self) -> bool:
@@ -25,6 +26,7 @@ class Node:
         elif reward == 0.5:
             self.value += reward
         if self.parent:
+            self.rating = self.value / self.visits
             self.parent.update(reward)
 
     def expand(self) -> Optional['Node']:
