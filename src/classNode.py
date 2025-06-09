@@ -17,14 +17,12 @@ class Node:
     def is_fully_expanded(self) -> bool:
         return len(self.children) == len(list(self.board.legal_moves))
 
-    def update(self, reward: int):
+    def update(self, reward: float):
         self.visits += 1
-        if self.board.turn == chess.WHITE and reward == 1:
-            self.value += 1
-        elif self.board.turn == chess.BLACK and reward == -1:
-            self.value += 1
-        elif reward == 0.5:
-            self.value += reward
+        if reward == 0.5:
+            self.value += 0.5
+        else:
+            self.value += reward if self.board.turn == chess.WHITE else -reward
         if self.parent:
             self.rating = self.value / self.visits
             self.parent.update(reward)
