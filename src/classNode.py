@@ -38,5 +38,6 @@ class Node:
             new_board.push(move)
             leaf = Node(new_board, parent=self, from_move=move)
             self.children.append(leaf)
+            return leaf
         else:
-            pass
+            return None
