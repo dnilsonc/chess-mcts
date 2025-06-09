@@ -92,7 +92,7 @@ def merge_trees(main_root, temp_root):
             main_root.used_moves.add(child.from_move)
 
 def monte_carlo_tree_search(root: Node, n_simulations: int, n_processes: int = 4):
-    simulations_per_process = n_simulations
+    simulations_per_process = n_simulations // n_processes
     with multiprocessing.Pool(processes=n_processes) as pool:
         results = pool.starmap(mcts_worker, [(root, simulations_per_process) for _ in range(n_processes)])
 
