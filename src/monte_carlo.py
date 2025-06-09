@@ -57,7 +57,7 @@ def best_child(root: Node) -> Node:
     #     if avaliation > best_avaliation:
     #         best_avaliation = avaliation
     #         best_child = child
-    best_child = min(root.children, key=lambda x: x.rating)
+    best_child = max(root.children, key=lambda x: x.rating)
     return best_child
 
 def mcts_worker(root, n_simulations):
